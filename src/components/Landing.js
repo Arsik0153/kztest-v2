@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Container from './templates/Container'
-import { useSpring, animated, interpolate } from 'react-spring'
+import { useTrail, animated, interpolate } from 'react-spring'
 import heroImg from './../assets/hero.png'
 import quote from './../assets/quote.svg'
 import waiting from './../assets/waiting.png'
 import Modal from 'react-modal'
 
 const Landing = () => {
-  const { opacity, y } = useSpring({
-    opacity: 1,
-    y: 0,
-    from: {
-      opacity: 0,
-      y: -20
-    }
+  const [toggle, set] = useState(true)
+
+  const items = [
+    ['Отзывы', ''],
+    ['Функции', ''],
+    ['Безопасность', ''],
+    ['Тарифы', ''],
+    ['Войти', '']
+  ]
+
+  const trail = useTrail(items.length, {
+    opacity: toggle ? 1 : 0,
+    x: toggle ? 0 : 20,
+    from: { opacity: 0, x: 20 },
+    config: { mass: 10, tension: 2000, friction: 180 }
   })
 
   return (
@@ -22,18 +30,10 @@ const Landing = () => {
       <Container>
         <Navbar>
           <Logo href="">kztest</Logo>
-          <MenuContainer
-            as={animated.div}
-            style={{
-              transform: y.interpolate(y => `translateY(${y}px)`),
-              opacity: opacity
-            }}
-          >
-            <MenuLink href="">Отзывы</MenuLink>
-            <MenuLink href="">Функции</MenuLink>
-            <MenuLink href="">Безопасность</MenuLink>
-            <MenuLink href="">Тарифы</MenuLink>
-            <MenuLink href="">Войти</MenuLink>
+          <MenuContainer>
+            {trail.map(({ x, ...rest }, index) =>
+              <MenuLink href={items[index][1]} style={{ transform: x.interpolate(x => `translate3d(0, ${x}px, 0)`), ...rest }}>{items[index][0]}</MenuLink>
+            )}
             <RegistrationButton>Регистрация</RegistrationButton>
           </MenuContainer>
         </Navbar>
@@ -106,7 +106,8 @@ const MenuContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
-const MenuLink = styled.a`
+const MenuLink = styled(animated.a)`
+  overflow: hidden;
   font-weight: 600;
   font-size: 14px;
   color: #9ea6c1;
