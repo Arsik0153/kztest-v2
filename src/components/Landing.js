@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Container from './templates/Container'
-import { useTrail, animated, interpolate } from 'react-spring'
+import { useTrail, animated } from 'react-spring'
 import heroImg from './../assets/hero.png'
 import quote from './../assets/quote.svg'
 import waiting from './../assets/waiting.png'
 import Modal from 'react-modal'
+import close from './../assets/close.svg'
 
 const Landing = () => {
   const [toggle, set] = useState(true)
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
 
   const items = [
     ['Отзывы', ''],
@@ -17,6 +19,17 @@ const Landing = () => {
     ['Тарифы', ''],
     ['Войти', '']
   ]
+
+  const customStyles = {
+    overlay: {
+      backgroundColor: 'rgba(0,0,0,0.1)'
+    },
+    content: {
+      width: 'calc(100% - 20px)',
+      maxWidth: '500px',
+      margin: '0 auto'
+    }
+  }
 
   const trail = useTrail(items.length, {
     opacity: toggle ? 1 : 0,
@@ -27,14 +40,50 @@ const Landing = () => {
 
   return (
     <>
+      <Modal
+        isOpen={isRegisterModalOpen}
+        onRequestClose={() => setIsRegisterModalOpen(false)}
+        contentLabel={'Регистрация'}
+        style={customStyles}
+      >
+        <ModalTitle>Регистрация</ModalTitle>
+        <ModalClose src={close} onClick={() => setIsRegisterModalOpen(false)} />
+        <Form>
+          <Label>Ваше имя и фамилия:</Label>
+          <InputGroup>
+            <Input type="text" placeholder="Имя" />
+            <Input type="text" placeholder="Фамилия" />
+          </InputGroup>
+          <Label>Ваш e-mail:</Label>
+          <Input type="text" placeholder="example@example.com" />
+          <Label>Введите пароль:</Label>
+          <Input type="text" placeholder="" />
+          <Label>Введите пароль еще раз:</Label>
+          <Input type="text" placeholder="" />
+        </Form>
+        <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
+          Зарегистрироваться
+        </CTA>
+      </Modal>
       <Container>
         <Navbar>
           <Logo href="">kztest</Logo>
           <MenuContainer>
-            {trail.map(({ x, ...rest }, index) =>
-              <MenuLink href={items[index][1]} style={{ transform: x.interpolate(x => `translate3d(0, ${x}px, 0)`), ...rest }}>{items[index][0]}</MenuLink>
-            )}
-            <RegistrationButton>Регистрация</RegistrationButton>
+            {trail.map(({ x, ...rest }, index) => (
+              <MenuLink
+                href={items[index][1]}
+                style={{
+                  transform: x.interpolate(x => `translate3d(0, ${x}px, 0)`),
+                  ...rest
+                }}
+                key={index}
+              >
+                {items[index][0]}
+              </MenuLink>
+            ))}
+            <RegistrationButton onClick={() => setIsRegisterModalOpen(true)}>
+              Регистрация
+            </RegistrationButton>
           </MenuContainer>
         </Navbar>
         <Hero>
@@ -100,6 +149,9 @@ const Logo = styled.a`
   color: #ec6236;
   margin-top: 5px;
   text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
 `
 const MenuContainer = styled.div`
   display: flex;
@@ -117,6 +169,7 @@ const MenuLink = styled(animated.a)`
   :hover {
     color: #1c303e;
     transition: 0.2s;
+    text-decoration: none;
   }
   :last-child {
     margin-right: 0;
@@ -271,6 +324,62 @@ const FunctionTexts = styled.div`
     width: 100%;
     margin-left: 10px;
   }
+`
+const ModalTitle = styled.h3`
+  font-weight: 600;
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+`
+const Form = styled.form`
+  width: auto;
+  display: flex;
+  flex-direction: column;
+`
+const Label = styled.label`
+  font-weight: 500;
+  font-size: 14px;
+  color: #717281;
+  margin: 15px 0 7px 0;
+`
+const Input = styled.input`
+  background: #f1f4fb;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #99aac0;
+  padding: 9px 15px;
+  border: 2px solid #f1f4fb;
+  font-family: 'Montserrat';
+  :focus {
+    border: 2px solid #ec6236;
+  }
+  ::placeholder {
+    color: #99aac0;
+    font-family: 'Montserrat';
+    font-weight: 500;
+  }
+`
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media screen and (min-width: 768px) {
+    ${Input}:first-child {
+      margin-right: 5px;
+    }
+    ${Input}:last-child {
+      margin-left: 5px;
+    }
+  }
+`
+const ModalClose = styled.img`
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+  padding: 15px;
+  top: 10px;
 `
 
 export default Landing
