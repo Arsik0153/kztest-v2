@@ -6,10 +6,11 @@ import quote from './../assets/quote.svg'
 import waiting from './../assets/waiting.png'
 import Modal from 'react-modal'
 import close from './../assets/close.svg'
+import { withRouter } from 'react-router-dom'
 
 Modal.setAppElement('#root')
 
-const Landing = () => {
+const Landing = ({ history }) => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [registerData, setRegisterData] = useState({
@@ -40,6 +41,10 @@ const Landing = () => {
   }
   const onLoginChange = e => {
     setLoginData({ ...loginData, [e.target.id]: e.target.value })
+  }
+
+  const onRegisterSubmit = () => {
+    history.push('/cabinet')
   }
 
   useEffect(() => {
@@ -98,7 +103,10 @@ const Landing = () => {
             onChange={onRegisterChange}
           />
         </Form>
-        <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
+        <CTA
+          style={{ marginBottom: '0', marginTop: '15px' }}
+          onClick={onRegisterSubmit}
+        >
           Зарегистрироваться
         </CTA>
         <TrustHeroText>
@@ -495,4 +503,4 @@ const ModalClose = styled.img`
   top: 10px;
 `
 
-export default Landing
+export default withRouter(Landing)
