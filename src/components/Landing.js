@@ -98,7 +98,9 @@ const Landing = () => {
             Одна платформа, которая изменит весь подход к тестированию и
             взаимодействиям с учениками навсегда.
           </SubText>
-          <CTA>Попробовать 7 дней бесплатно</CTA>
+          <CTA onClick={() => setIsRegisterModalOpen(true)}>
+            Попробовать 7 дней бесплатно
+          </CTA>
         </Hero>
         <Trust>
           <CardsContainer>
@@ -133,7 +135,9 @@ const Landing = () => {
               статистику учеников и экономить ваше время. И всё это без вашего
               участия.
             </SubText>
-            <CTA>Попробовать функцию</CTA>
+            <CTA onClick={() => setIsRegisterModalOpen(true)}>
+              Попробовать функцию
+            </CTA>
           </FunctionTexts>
         </Functions>
       </Container>
