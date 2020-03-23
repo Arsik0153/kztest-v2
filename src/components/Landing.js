@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Container from './templates/Container'
 import heroImg from './../assets/hero.png'
@@ -12,6 +12,17 @@ Modal.setAppElement('#root')
 const Landing = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [registerData, setRegisterData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    pass: '',
+    againPass: ''
+  })
+  const [loginData, setLoginData] = useState({
+    email: '',
+    pass: ''
+  })
 
   const customStyles = {
     overlay: {
@@ -23,6 +34,22 @@ const Landing = () => {
       margin: '0 auto'
     }
   }
+
+  const onRegisterChange = e => {
+    setRegisterData({ ...registerData, [e.target.id]: e.target.value })
+  }
+  const onLoginChange = e => {
+    setLoginData({ ...loginData, [e.target.id]: e.target.value })
+  }
+
+  useEffect(() => {
+    console.log(registerData)
+  }, [registerData])
+
+  useEffect(() => {
+    console.log(loginData)
+  }, [loginData])
+
   return (
     <>
       <Modal
@@ -36,19 +63,57 @@ const Landing = () => {
         <Form>
           <Label>Ваше имя и фамилия:</Label>
           <InputGroup>
-            <Input type="text" placeholder="Имя" />
-            <Input type="text" placeholder="Фамилия" />
+            <Input
+              type="text"
+              placeholder="Имя"
+              id="firstName"
+              onChange={onRegisterChange}
+            />
+            <Input
+              type="text"
+              placeholder="Фамилия"
+              id="lastName"
+              onChange={onRegisterChange}
+            />
           </InputGroup>
           <Label>Ваш e-mail:</Label>
-          <Input type="email" placeholder="example@example.com" />
+          <Input
+            type="email"
+            placeholder="example@example.com"
+            id="email"
+            onChange={onRegisterChange}
+          />
           <Label>Введите пароль:</Label>
-          <Input type="password" placeholder="" />
+          <Input
+            type="password"
+            placeholder=""
+            id="pass"
+            onChange={onRegisterChange}
+          />
           <Label>Введите пароль еще раз:</Label>
-          <Input type="password" placeholder="" />
+          <Input
+            type="password"
+            placeholder=""
+            id="againPass"
+            onChange={onRegisterChange}
+          />
         </Form>
         <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
           Зарегистрироваться
         </CTA>
+        <TrustHeroText>
+          Уже зарегистрированы?{' '}
+          <a
+            href="!#"
+            onClick={e => {
+              e.preventDefault()
+              setIsRegisterModalOpen(false)
+              setIsLoginModalOpen(true)
+            }}
+          >
+            Войти
+          </a>
+        </TrustHeroText>
       </Modal>
       <Modal
         isOpen={isLoginModalOpen}
@@ -60,24 +125,47 @@ const Landing = () => {
         <ModalClose src={close} onClick={() => setIsLoginModalOpen(false)} />
         <Form>
           <Label>Ваш e-mail:</Label>
-          <Input type="email" placeholder="example@example.com" />
+          <Input
+            type="email"
+            placeholder="example@example.com"
+            id="email"
+            onChange={onLoginChange}
+          />
           <Label>Введите пароль:</Label>
-          <Input type="password" placeholder="" />
+          <Input
+            type="password"
+            placeholder=""
+            id="pass"
+            onChange={onLoginChange}
+          />
         </Form>
         <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
           Авторизоваться
         </CTA>
+        <TrustHeroText>
+          Еще не зарегистрированы?{' '}
+          <a
+            href="!#"
+            onClick={e => {
+              e.preventDefault()
+              setIsLoginModalOpen(false)
+              setIsRegisterModalOpen(true)
+            }}
+          >
+            Регистрация
+          </a>
+        </TrustHeroText>
       </Modal>
       <Container>
         <Navbar>
-          <Logo href="">kztest</Logo>
+          <Logo href="!#">kztest</Logo>
           <MenuContainer>
-            <MenuLink href="">Отзывы</MenuLink>
-            <MenuLink href="">Функции</MenuLink>
-            <MenuLink href="">Безопасность</MenuLink>
-            <MenuLink href="">Тарифы</MenuLink>
+            <MenuLink href="!#">Отзывы</MenuLink>
+            <MenuLink href="!#">Функции</MenuLink>
+            <MenuLink href="!#">Безопасность</MenuLink>
+            <MenuLink href="!#">Тарифы</MenuLink>
             <MenuLink
-              href=""
+              href="!#"
               onClick={e => {
                 e.preventDefault()
                 setIsLoginModalOpen(true)
@@ -119,7 +207,15 @@ const Landing = () => {
             <TrustHeroText>
               Практически каждый пользователь, который пользовался нашим
               сервисом, оставил положительный отзыв.{' '}
-              <a href="">Присоединяйся!</a>
+              <a
+                href="!#"
+                onClick={e => {
+                  e.preventDefault()
+                  setIsRegisterModalOpen(true)
+                }}
+              >
+                Присоединяйся!
+              </a>
             </TrustHeroText>
           </TrustTextContainer>
         </Trust>
