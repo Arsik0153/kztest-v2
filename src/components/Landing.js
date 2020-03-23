@@ -570,9 +570,11 @@ const InputGroup = styled.div`
   @media screen and (min-width: 768px) {
     ${Input}:first-child {
       margin-right: 5px;
+      width: calc(50% - 5px);
     }
     ${Input}:last-child {
       margin-left: 5px;
+      width: calc(50% - 5px);
     }
   }
   @media screen and (max-width: 768px) {
