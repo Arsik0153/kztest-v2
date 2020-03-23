@@ -1,24 +1,17 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Container from './templates/Container'
-import { useTrail, animated } from 'react-spring'
 import heroImg from './../assets/hero.png'
 import quote from './../assets/quote.svg'
 import waiting from './../assets/waiting.png'
 import Modal from 'react-modal'
 import close from './../assets/close.svg'
 
-const Landing = () => {
-  const [toggle, set] = useState(true)
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+Modal.setAppElement('#root')
 
-  const items = [
-    ['Отзывы', ''],
-    ['Функции', ''],
-    ['Безопасность', ''],
-    ['Тарифы', ''],
-    ['Войти', '']
-  ]
+const Landing = () => {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
   const customStyles = {
     overlay: {
@@ -30,14 +23,6 @@ const Landing = () => {
       margin: '0 auto'
     }
   }
-
-  const trail = useTrail(items.length, {
-    opacity: toggle ? 1 : 0,
-    x: toggle ? 0 : 20,
-    from: { opacity: 0, x: 20 },
-    config: { mass: 10, tension: 2000, friction: 180 }
-  })
-
   return (
     <>
       <Modal
@@ -55,32 +40,51 @@ const Landing = () => {
             <Input type="text" placeholder="Фамилия" />
           </InputGroup>
           <Label>Ваш e-mail:</Label>
-          <Input type="text" placeholder="example@example.com" />
+          <Input type="email" placeholder="example@example.com" />
           <Label>Введите пароль:</Label>
-          <Input type="text" placeholder="" />
+          <Input type="password" placeholder="" />
           <Label>Введите пароль еще раз:</Label>
-          <Input type="text" placeholder="" />
+          <Input type="password" placeholder="" />
         </Form>
         <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
           Зарегистрироваться
+        </CTA>
+      </Modal>
+      <Modal
+        isOpen={isLoginModalOpen}
+        onRequestClose={() => setIsLoginModalOpen(false)}
+        contentLabel={'Войти'}
+        style={customStyles}
+      >
+        <ModalTitle>Вход</ModalTitle>
+        <ModalClose src={close} onClick={() => setIsLoginModalOpen(false)} />
+        <Form>
+          <Label>Ваш e-mail:</Label>
+          <Input type="email" placeholder="example@example.com" />
+          <Label>Введите пароль:</Label>
+          <Input type="password" placeholder="" />
+        </Form>
+        <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
+          Авторизоваться
         </CTA>
       </Modal>
       <Container>
         <Navbar>
           <Logo href="">kztest</Logo>
           <MenuContainer>
-            {trail.map(({ x, ...rest }, index) => (
-              <MenuLink
-                href={items[index][1]}
-                style={{
-                  transform: x.interpolate(x => `translate3d(0, ${x}px, 0)`),
-                  ...rest
-                }}
-                key={index}
-              >
-                {items[index][0]}
-              </MenuLink>
-            ))}
+            <MenuLink href="">Отзывы</MenuLink>
+            <MenuLink href="">Функции</MenuLink>
+            <MenuLink href="">Безопасность</MenuLink>
+            <MenuLink href="">Тарифы</MenuLink>
+            <MenuLink
+              href=""
+              onClick={e => {
+                e.preventDefault()
+                setIsLoginModalOpen(true)
+              }}
+            >
+              Войти
+            </MenuLink>
             <RegistrationButton onClick={() => setIsRegisterModalOpen(true)}>
               Регистрация
             </RegistrationButton>
@@ -158,7 +162,7 @@ const MenuContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
-const MenuLink = styled(animated.a)`
+const MenuLink = styled.a`
   overflow: hidden;
   font-weight: 600;
   font-size: 14px;
@@ -337,6 +341,7 @@ const Form = styled.form`
   flex-direction: column;
 `
 const Label = styled.label`
+  min-width: 300px;
   font-weight: 500;
   font-size: 14px;
   color: #717281;
@@ -350,7 +355,7 @@ const Input = styled.input`
   font-size: 14px;
   color: #99aac0;
   padding: 9px 15px;
-  border: 2px solid #f1f4fb;
+  border: 2px solid #f1f4fb !important;
   font-family: 'Montserrat';
   :focus {
     border: 2px solid #ec6236;
@@ -371,6 +376,14 @@ const InputGroup = styled.div`
     }
     ${Input}:last-child {
       margin-left: 5px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    ${Input} {
+      width: 100%;
+    }
+    ${Input}:last-child {
+      margin-top: 10px;
     }
   }
 `
