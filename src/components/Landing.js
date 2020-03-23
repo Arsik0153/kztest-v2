@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Container from './templates/Container'
 import heroImg from './../assets/hero.png'
@@ -6,7 +6,9 @@ import quote from './../assets/quote.svg'
 import waiting from './../assets/waiting.png'
 import Modal from 'react-modal'
 import close from './../assets/close.svg'
+import error from './../assets/error.svg'
 import { withRouter } from 'react-router-dom'
+import * as yup from 'yup'
 
 Modal.setAppElement('#root')
 
@@ -24,6 +26,8 @@ const Landing = ({ history }) => {
     email: '',
     pass: ''
   })
+  const [errorRegister, setErrorRegister] = useState('')
+  const [errorLogin, setErrorLogin] = useState('')
 
   const customStyles = {
     overlay: {
@@ -36,6 +40,42 @@ const Landing = ({ history }) => {
     }
   }
 
+  let registerSchema = yup.object().shape({
+    firstName: yup
+      .string('Имя должно содержать только буквы')
+      .required('Заполните имя'),
+    lastName: yup
+      .string('Фамилия должно содержать только буквы')
+      .required('Заполните фамилию'),
+    email: yup
+      .string('Неверный e-mail')
+      .email('Введите действительный e-mail')
+      .required('Введите e-mail'),
+    pass: yup
+      .string('Пароль не соответствует правилам')
+      .required('Заполните пароль')
+      .min(8, 'Пароль должен содержать минимум 8 символов')
+      .matches(
+        /[a-z0-9]{8,}/i,
+        'Пароль можно писать только латинскими буквами'
+      ),
+    againPass: yup
+      .string('Пароль не соответствует правилам')
+      .oneOf([yup.ref('pass'), null], 'Пароли не совпадают')
+  })
+
+  let loginSchema = yup.object().shape({
+    email: yup
+      .string('Неверный e-mail')
+      .email('Введите действительный e-mail')
+      .required('Введите e-mail'),
+    pass: yup
+      .string('Пароль не соответствует правилам')
+      .required('Заполните пароль')
+      .min(8, 'Пароль должен содержать минимум 8 символов')
+      .matches(/[a-z0-9]{8,}/i, 'Пароль можно писать только латинскими буквами')
+  })
+
   const onRegisterChange = e => {
     setRegisterData({ ...registerData, [e.target.id]: e.target.value })
   }
@@ -44,16 +84,39 @@ const Landing = ({ history }) => {
   }
 
   const onRegisterSubmit = () => {
-    history.push('/cabinet')
+    registerSchema
+      .validate(registerData)
+      .then(() => {
+        setErrorRegister('')
+        console.log('valid')
+      })
+      .catch(err => {
+        setErrorRegister(err.errors[0])
+      })
+    //history.push('/cabinet')
   }
 
-  useEffect(() => {
+  const onLoginSubmit = () => {
+    loginSchema
+      .validate(loginData)
+      .then(() => {
+        setErrorLogin('')
+        console.log('valid')
+      })
+      .catch(err => {
+        console.log(err)
+        setErrorLogin(err.errors[0])
+      })
+    //history.push('/cabinet')
+  }
+
+  /*useEffect(() => {
     console.log(registerData)
   }, [registerData])
 
   useEffect(() => {
     console.log(loginData)
-  }, [loginData])
+  }, [loginData])*/
 
   return (
     <>
@@ -66,6 +129,14 @@ const Landing = ({ history }) => {
         <ModalTitle>Регистрация</ModalTitle>
         <ModalClose src={close} onClick={() => setIsRegisterModalOpen(false)} />
         <Form>
+          {errorRegister ? (
+            <ErrorMsg>
+              <ErrorImg src={error} />
+              {errorRegister}
+            </ErrorMsg>
+          ) : (
+            ''
+          )}
           <Label>Ваше имя и фамилия:</Label>
           <InputGroup>
             <Input
@@ -73,12 +144,14 @@ const Landing = ({ history }) => {
               placeholder="Имя"
               id="firstName"
               onChange={onRegisterChange}
+              value={registerData.firstName}
             />
             <Input
               type="text"
               placeholder="Фамилия"
               id="lastName"
               onChange={onRegisterChange}
+              value={registerData.lastName}
             />
           </InputGroup>
           <Label>Ваш e-mail:</Label>
@@ -87,6 +160,7 @@ const Landing = ({ history }) => {
             placeholder="example@example.com"
             id="email"
             onChange={onRegisterChange}
+            value={registerData.email}
           />
           <Label>Введите пароль:</Label>
           <Input
@@ -94,6 +168,7 @@ const Landing = ({ history }) => {
             placeholder=""
             id="pass"
             onChange={onRegisterChange}
+            value={registerData.pass}
           />
           <Label>Введите пароль еще раз:</Label>
           <Input
@@ -101,6 +176,7 @@ const Landing = ({ history }) => {
             placeholder=""
             id="againPass"
             onChange={onRegisterChange}
+            value={registerData.againPass}
           />
         </Form>
         <CTA
@@ -132,12 +208,21 @@ const Landing = ({ history }) => {
         <ModalTitle>Вход</ModalTitle>
         <ModalClose src={close} onClick={() => setIsLoginModalOpen(false)} />
         <Form>
+          {errorLogin ? (
+            <ErrorMsg>
+              <ErrorImg src={error} />
+              {errorLogin}
+            </ErrorMsg>
+          ) : (
+            ''
+          )}
           <Label>Ваш e-mail:</Label>
           <Input
             type="email"
             placeholder="example@example.com"
             id="email"
             onChange={onLoginChange}
+            value={loginData.email}
           />
           <Label>Введите пароль:</Label>
           <Input
@@ -145,9 +230,13 @@ const Landing = ({ history }) => {
             placeholder=""
             id="pass"
             onChange={onLoginChange}
+            value={loginData.pass}
           />
         </Form>
-        <CTA style={{ marginBottom: '0', marginTop: '15px' }}>
+        <CTA
+          onClick={onLoginSubmit}
+          style={{ marginBottom: '0', marginTop: '15px' }}
+        >
           Авторизоваться
         </CTA>
         <TrustHeroText>
@@ -450,7 +539,7 @@ const Form = styled.form`
 `
 const Label = styled.label`
   min-width: 300px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   color: #717281;
   margin: 15px 0 7px 0;
@@ -461,7 +550,7 @@ const Input = styled.input`
   border-radius: 5px;
   font-weight: 500;
   font-size: 14px;
-  color: #99aac0;
+  color: #717281;
   padding: 9px 15px;
   border: 2px solid #f1f4fb !important;
   font-family: 'Montserrat';
@@ -501,6 +590,20 @@ const ModalClose = styled.img`
   cursor: pointer;
   padding: 15px;
   top: 10px;
+`
+const ErrorMsg = styled.p`
+  background: #fd4e44;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 5px;
+`
+const ErrorImg = styled.img`
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  margin-bottom: -4px;
+  margin-right: 10px;
 `
 
 export default withRouter(Landing)
