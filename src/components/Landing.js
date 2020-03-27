@@ -9,6 +9,7 @@ import close from './../assets/close.svg'
 import error from './../assets/error.svg'
 import { withRouter } from 'react-router-dom'
 import * as yup from 'yup'
+import Logo from './templates/Logo'
 
 Modal.setAppElement('#root')
 
@@ -88,12 +89,11 @@ const Landing = ({ history }) => {
       .validate(registerData)
       .then(() => {
         setErrorRegister('')
-        console.log('valid')
+        history.push('/cabinet')
       })
       .catch(err => {
         setErrorRegister(err.errors[0])
       })
-    //history.push('/cabinet')
   }
 
   const onLoginSubmit = () => {
@@ -343,16 +343,6 @@ const Navbar = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-`
-const Logo = styled.a`
-  font-weight: 600;
-  font-size: 28px;
-  color: #ec6236;
-  margin-top: 5px;
-  text-decoration: none;
-  :hover {
-    text-decoration: none;
-  }
 `
 const MenuContainer = styled.div`
   display: flex;
