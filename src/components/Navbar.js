@@ -39,6 +39,7 @@ const Navbar = () => {
 const Container = styled.div`
   position: fixed;
   width: 210px;
+  z-index: 999;
   grid-area: nav;
   display: flex;
   flex-direction: column;

@@ -6,7 +6,6 @@ import TestSummary from './TestSummary'
 
 const Bg = styled.div`
   background: #f5f6fa;
-  overflow-x: hidden;
   display: grid;
   grid-template-areas:
     'nav header'

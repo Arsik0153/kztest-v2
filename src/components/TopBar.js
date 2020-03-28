@@ -148,6 +148,7 @@ const Add = styled.a`
   :hover {
     background: #ec6236;
     color: #fff;
+    text-decoration: none;
   }
 `
 
@@ -179,7 +180,7 @@ const TopBar = () => {
               <div></div>
             </Progress>
           </PaymentStatus>
-          <Add href="">+</Add>
+          <Add>+</Add>
         </Payment>
       </Right>
     </Flex>
