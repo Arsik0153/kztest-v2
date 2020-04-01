@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Landing from './components/Landing'
 import Cabinet from './components/Cabinet'
-import { TestDetails } from './components/TestDetails'
+import TestDetails from './components/TestDetails/TestDetails'
 
 const App = () => {
   return (

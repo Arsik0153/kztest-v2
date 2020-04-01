@@ -178,13 +178,15 @@ const Landing = ({ history }) => {
             onChange={onRegisterChange}
             value={registerData.againPass}
           />
+
+          <CTA
+            style={{ margin: '15px auto 0 auto' }}
+            onClick={onRegisterSubmit}
+            type="submit"
+          >
+            Зарегистрироваться
+          </CTA>
         </Form>
-        <CTA
-          style={{ marginBottom: '0', marginTop: '15px' }}
-          onClick={onRegisterSubmit}
-        >
-          Зарегистрироваться
-        </CTA>
         <TrustHeroText>
           Уже зарегистрированы?{' '}
           <a
@@ -232,13 +234,15 @@ const Landing = ({ history }) => {
             onChange={onLoginChange}
             value={loginData.pass}
           />
+          <CTA
+            onClick={onLoginSubmit}
+            style={{ margin: '15px auto 0 auto' }}
+            type="submit"
+          >
+            Авторизоваться
+          </CTA>
         </Form>
-        <CTA
-          onClick={onLoginSubmit}
-          style={{ marginBottom: '0', marginTop: '15px' }}
-        >
-          Авторизоваться
-        </CTA>
+
         <TrustHeroText>
           Еще не зарегистрированы?{' '}
           <a

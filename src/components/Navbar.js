@@ -17,19 +17,19 @@ const Navbar = () => {
       <Menu src={menu} onClick={() => setMenuOpen(!menuOpen)} />
       <Links>
         <Link>
-          <img src={profile} /> Профиль
+          <img src={profile} /> <span>Профиль</span>
         </Link>
         <Link>
-          <img src={create} /> Новый тест
+          <img src={create} /> <span>Новый тест</span>
         </Link>
         <Link>
-          <img src={payment} /> Оплата
+          <img src={payment} /> <span>Оплата</span>
         </Link>
         <Link>
-          <img src={help} /> Помощь
+          <img src={help} /> <span>Помощь</span>
         </Link>
         <Link>
-          <img src={exit} /> Выход
+          <img src={exit} /> <span>Выход</span>
         </Link>
       </Links>
     </Container>
@@ -78,6 +78,14 @@ const Link = styled.a`
   :hover {
     color: #32323a;
     text-decoration: none;
+    background: #f0f3ff;
+    span {
+      margin-left: 5px;
+      transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+  span {
+    transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
   img {
     width: 25px;
