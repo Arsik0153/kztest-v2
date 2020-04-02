@@ -13,7 +13,7 @@ const Header = () => {
         Время на выполнение: <span>15 минут</span>
       </Code>
       <Time>
-        12.08.2019
+        03.04.2020
         <img src={calendar} />
       </Time>
     </Container>

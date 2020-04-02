@@ -46,7 +46,7 @@ const Container = styled.div`
   align-items: center;
   background: #fff;
   height: 100vh;
-  transition: 0.3s;
+  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   overflow: hidden;
   padding-top: 15px;
   border-right: 2px solid #f5f6fa;
