@@ -21,24 +21,24 @@ const Landing = ({ history }) => {
     lastName: '',
     email: '',
     pass: '',
-    againPass: ''
+    againPass: '',
   })
   const [loginData, setLoginData] = useState({
     email: '',
-    pass: ''
+    pass: '',
   })
   const [errorRegister, setErrorRegister] = useState('')
   const [errorLogin, setErrorLogin] = useState('')
 
   const customStyles = {
     overlay: {
-      backgroundColor: 'rgba(0,0,0,0.1)'
+      backgroundColor: 'rgba(0,0,0,0.1)',
     },
     content: {
       width: 'calc(100% - 20px)',
       maxWidth: '500px',
-      margin: '0 auto'
-    }
+      margin: '0 auto',
+    },
   }
 
   let registerSchema = yup.object().shape({
@@ -62,7 +62,7 @@ const Landing = ({ history }) => {
       ),
     againPass: yup
       .string('Пароль не соответствует правилам')
-      .oneOf([yup.ref('pass'), null], 'Пароли не совпадают')
+      .oneOf([yup.ref('pass'), null], 'Пароли не совпадают'),
   })
 
   let loginSchema = yup.object().shape({
@@ -74,36 +74,41 @@ const Landing = ({ history }) => {
       .string('Пароль не соответствует правилам')
       .required('Заполните пароль')
       .min(8, 'Пароль должен содержать минимум 8 символов')
-      .matches(/[a-z0-9]{8,}/i, 'Пароль можно писать только латинскими буквами')
+      .matches(
+        /[a-z0-9]{8,}/i,
+        'Пароль можно писать только латинскими буквами'
+      ),
   })
 
-  const onRegisterChange = e => {
+  const onRegisterChange = (e) => {
     setRegisterData({ ...registerData, [e.target.id]: e.target.value })
   }
-  const onLoginChange = e => {
+  const onLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.id]: e.target.value })
   }
 
-  const onRegisterSubmit = () => {
+  const onRegisterSubmit = (e) => {
+    e.preventDefault()
     registerSchema
       .validate(registerData)
       .then(() => {
         setErrorRegister('')
         history.push('/cabinet')
       })
-      .catch(err => {
+      .catch((err) => {
         setErrorRegister(err.errors[0])
       })
   }
 
-  const onLoginSubmit = () => {
+  const onLoginSubmit = (e) => {
+    e.preventDefault()
     loginSchema
       .validate(loginData)
       .then(() => {
         setErrorLogin('')
         console.log('valid')
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
         setErrorLogin(err.errors[0])
       })
@@ -181,7 +186,7 @@ const Landing = ({ history }) => {
 
           <CTA
             style={{ margin: '15px auto 0 auto' }}
-            onClick={onRegisterSubmit}
+            onClick={(e) => onRegisterSubmit(e)}
             type="submit"
           >
             Зарегистрироваться
@@ -191,7 +196,7 @@ const Landing = ({ history }) => {
           Уже зарегистрированы?{' '}
           <a
             href="!#"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault()
               setIsRegisterModalOpen(false)
               setIsLoginModalOpen(true)
@@ -235,7 +240,7 @@ const Landing = ({ history }) => {
             value={loginData.pass}
           />
           <CTA
-            onClick={onLoginSubmit}
+            onClick={(e) => onLoginSubmit(e)}
             style={{ margin: '15px auto 0 auto' }}
             type="submit"
           >
@@ -247,7 +252,7 @@ const Landing = ({ history }) => {
           Еще не зарегистрированы?{' '}
           <a
             href="!#"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault()
               setIsLoginModalOpen(false)
               setIsRegisterModalOpen(true)
@@ -267,7 +272,7 @@ const Landing = ({ history }) => {
             <MenuLink href="!#">Тарифы</MenuLink>
             <MenuLink
               href="!#"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault()
                 setIsLoginModalOpen(true)
               }}
@@ -310,7 +315,7 @@ const Landing = ({ history }) => {
               сервисом, оставил положительный отзыв.{' '}
               <a
                 href="!#"
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault()
                   setIsRegisterModalOpen(true)
                 }}
