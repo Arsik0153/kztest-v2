@@ -16,6 +16,7 @@ Modal.setAppElement('#root')
 const Landing = ({ history }) => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isStartModalOpen, setIsStartModalOpen] = useState(false)
   const [registerData, setRegisterData] = useState({
     firstName: '',
     lastName: '',
@@ -27,8 +28,14 @@ const Landing = ({ history }) => {
     email: '',
     pass: '',
   })
+  const [startData, setStartData] = useState({
+    firstName: '',
+    lastName: '',
+    code: '',
+  })
   const [errorRegister, setErrorRegister] = useState('')
   const [errorLogin, setErrorLogin] = useState('')
+  const [errorStart, setErrorStart] = useState('')
 
   const customStyles = {
     overlay: {
@@ -46,7 +53,7 @@ const Landing = ({ history }) => {
       .string('Имя должно содержать только буквы')
       .required('Заполните имя'),
     lastName: yup
-      .string('Фамилия должно содержать только буквы')
+      .string('Фамилия должна содержать только буквы')
       .required('Заполните фамилию'),
     email: yup
       .string('Неверный e-mail')
@@ -80,11 +87,27 @@ const Landing = ({ history }) => {
       ),
   })
 
+  let startSchema = yup.object().shape({
+    firstName: yup
+      .string('Имя должно содержать только буквы')
+      .required('Заполните имя'),
+    lastName: yup
+      .string('Фамилия должна содержать только буквы')
+      .required('Заполните фамилию'),
+    code: yup
+      .string('sdf')
+      .min(4, 'Код должен содержать 4 цифры')
+      .max(4, 'Код должен содержать 4 цифры'),
+  })
+
   const onRegisterChange = (e) => {
     setRegisterData({ ...registerData, [e.target.id]: e.target.value })
   }
   const onLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.id]: e.target.value })
+  }
+  const onStartChange = (e) => {
+    setStartData({ ...startData, [e.target.id]: e.target.value })
   }
 
   const onRegisterSubmit = (e) => {
@@ -106,11 +129,21 @@ const Landing = ({ history }) => {
       .validate(loginData)
       .then(() => {
         setErrorLogin('')
-        console.log('valid')
       })
       .catch((err) => {
-        console.log(err)
         setErrorLogin(err.errors[0])
+      })
+    //history.push('/cabinet')
+  }
+  const onStartSubmit = (e) => {
+    e.preventDefault()
+    startSchema
+      .validate(startData)
+      .then(() => {
+        setErrorStart('')
+      })
+      .catch((err) => {
+        setErrorStart(err.errors[0])
       })
     //history.push('/cabinet')
   }
@@ -262,6 +295,59 @@ const Landing = ({ history }) => {
           </a>
         </TrustHeroText>
       </Modal>
+
+      <Modal
+        isOpen={isStartModalOpen}
+        onRequestClose={() => setIsStartModalOpen(false)}
+        contentLabel={'Начать'}
+        style={customStyles}
+      >
+        <ModalTitle>Начать тест</ModalTitle>
+        <ModalClose src={close} onClick={() => setIsStartModalOpen(false)} />
+        <Form>
+          {errorStart ? (
+            <ErrorMsg>
+              <ErrorImg src={error} />
+              {errorStart}
+            </ErrorMsg>
+          ) : (
+            ''
+          )}
+          <Label>Имя и фамилия:</Label>
+          <InputGroup>
+            <Input
+              type="text"
+              placeholder="Имя"
+              id="firstName"
+              onChange={onStartChange}
+              value={startData.firstName}
+            />
+            <Input
+              type="text"
+              placeholder="Фамилия"
+              id="lastName"
+              onChange={onStartChange}
+              value={startData.lastName}
+            />
+          </InputGroup>
+          <Label>Введите код:</Label>
+          <Input
+            type="text"
+            placeholder="4-х значный код"
+            id="code"
+            onChange={onStartChange}
+            value={startData.code}
+          />
+          <CTA
+            onClick={(e) => onStartSubmit(e)}
+            style={{ margin: '15px auto 0 auto' }}
+            type="submit"
+          >
+            Начать
+          </CTA>
+        </Form>
+      </Modal>
+
       <Container>
         <Navbar>
           <Logo href="!#">kztest</Logo>
@@ -295,6 +381,7 @@ const Landing = ({ history }) => {
           <CTA onClick={() => setIsRegisterModalOpen(true)}>
             Попробовать 7 дней бесплатно
           </CTA>
+          <Start onClick={() => setIsStartModalOpen(true)}>Начать тест</Start>
         </Hero>
         <Trust>
           <CardsContainer>
@@ -440,7 +527,7 @@ const CTA = styled.button`
   cursor: pointer;
   border: 2px solid #ec6236;
   transition: 0.1s;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   :hover {
     background: #ffffff;
     color: #ec6236;
@@ -448,6 +535,32 @@ const CTA = styled.button`
   }
   @media screen and (min-width: 768px) {
     margin-bottom: 100px;
+  }
+`
+const Start = styled.button`
+  width: fit-content;
+  font-family: 'Montserrat';
+  padding: 17px 30px;
+  background: #ffffff;
+  box-shadow: 0px 0px 15px rgba(236, 98, 54, 0.56);
+  border-radius: 5px;
+  font-size: 14px;
+  color: #ec6236;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+  border: 2px solid #ec6236;
+  transition: 0.1s;
+  margin-left: 15px;
+  :hover {
+    background: #ec6236;
+    color: #ffffff;
+    transition: 0.2s;
+  }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 50px;
+    margin-left: 0px;
   }
 `
 const Trust = styled.div`
