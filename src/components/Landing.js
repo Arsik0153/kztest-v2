@@ -558,7 +558,7 @@ const Start = styled.button`
     color: #ffffff;
     transition: 0.2s;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 540px) {
     margin-bottom: 50px;
     margin-left: 0px;
   }
