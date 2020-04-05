@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 
-const Logo = styled.a`
+const Logo = styled(motion.a)`
   font-weight: 600;
   font-size: 28px;
   color: #ec6236;

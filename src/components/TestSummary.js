@@ -2,15 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import arrow from './../assets/arrow.svg'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
+const container = {
+  visible: {
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 0.2,
+    },
+  },
+}
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+}
 
 const TestSummary = () => {
   return (
     <Container>
       <Heading>Тесты</Heading>
       <Subtitle>За выбранный период</Subtitle>
-      <TestsContainer>
+      <TestsContainer variants={container} initial="hidden" animate="visible">
         <Link to={'/test/123'}>
-          <Test>
+          <Test variants={item}>
             <TestTitle>Казахский язык 2 тест</TestTitle>
             <CodeTitle>Код:</CodeTitle>
             <Code>4502</Code>
@@ -39,7 +57,7 @@ const Subtitle = styled.p`
   color: #8e9eb5;
   margin-top: 12px;
 `
-const TestsContainer = styled.div`
+const TestsContainer = styled(motion.div)`
   margin: -10px;
   margin-top: 20px;
   display: flex;
@@ -82,7 +100,7 @@ const Code = styled.h1`
   color: #12121c;
   transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 `
-const Test = styled.div`
+const Test = styled(motion.div)`
   width: 320px;
   margin: 10px;
   background: #fff;

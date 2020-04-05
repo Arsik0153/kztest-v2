@@ -142,7 +142,7 @@ const Landing = ({ history }) => {
           ) : (
             ''
           )}
-          <Label>Ваше имя и фамилия:</Label>
+          <Label>Имя и фамилия:</Label>
           <InputGroup>
             <Input
               type="text"
@@ -159,7 +159,7 @@ const Landing = ({ history }) => {
               value={registerData.lastName}
             />
           </InputGroup>
-          <Label>Ваш e-mail:</Label>
+          <Label>E-mail:</Label>
           <Input
             type="email"
             placeholder="example@example.com"
@@ -223,7 +223,7 @@ const Landing = ({ history }) => {
           ) : (
             ''
           )}
-          <Label>Ваш e-mail:</Label>
+          <Label>E-mail:</Label>
           <Input
             type="email"
             placeholder="example@example.com"

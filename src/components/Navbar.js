@@ -7,28 +7,53 @@ import profile from './../assets/profile.svg'
 import exit from './../assets/exit.svg'
 import Logo from './templates/Logo'
 import menu from './../assets/menu.svg'
+import { motion } from 'framer-motion'
+
+const container = {
+  visible: {
+    delay: 0.01,
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 0.05,
+    },
+  },
+}
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+}
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <Container open={menuOpen}>
-      <Logo style={{ margin: '15px auto' }}>kztest</Logo>
+      <Logo
+        style={{ margin: '15px auto' }}
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+      >
+        kztest
+      </Logo>
       <Menu src={menu} onClick={() => setMenuOpen(!menuOpen)} />
-      <Links>
-        <Link>
+      <Links variants={container} initial="hidden" animate="visible">
+        <Link variants={item}>
           <img src={profile} /> <span>Профиль</span>
         </Link>
-        <Link>
+        <Link variants={item}>
           <img src={create} /> <span>Новый тест</span>
         </Link>
-        <Link>
+        <Link variants={item}>
           <img src={payment} /> <span>Оплата</span>
         </Link>
-        <Link>
+        <Link variants={item}>
           <img src={help} /> <span>Помощь</span>
         </Link>
-        <Link>
+        <Link variants={item}>
           <img src={exit} /> <span>Выход</span>
         </Link>
       </Links>
@@ -52,7 +77,7 @@ const Container = styled.div`
   border-right: 2px solid #f5f6fa;
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: ${props => (props.open ? '325px' : '70px')};
+    height: ${(props) => (props.open ? '325px' : '70px')};
     align-items: flex-start;
     border-bottom: 1px solid #f5f6fa;
     box-shadow: 0px 4px 25px rgba(186, 197, 209, 0.31);
@@ -60,7 +85,7 @@ const Container = styled.div`
     border-right: none;
   }
 `
-const Links = styled.div`
+const Links = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -69,7 +94,7 @@ const Links = styled.div`
     margin-top: 0;
   }
 `
-const Link = styled.a`
+const Link = styled(motion.a)`
   color: #8b93b3;
   font-weight: bold;
   font-size: 14px;
