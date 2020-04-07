@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import arrow from './../assets/arrow.svg'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import plus from './../assets/plus.svg'
 
 const container = {
   visible: {
@@ -27,8 +28,13 @@ const TestSummary = () => {
       <Heading>Тесты</Heading>
       <Subtitle>За выбранный период</Subtitle>
       <TestsContainer variants={container} initial="hidden" animate="visible">
-        <Link to={'/test/123'}>
+        <Link to={'/new'}>
           <Test variants={item}>
+            <Plus src={plus} />
+          </Test>
+        </Link>
+        <Link to={'/test/123'}>
+          <Test variants={item} plus>
             <TestTitle>Казахский язык 2 тест</TestTitle>
             <CodeTitle>Код:</CodeTitle>
             <Code>4502</Code>
@@ -100,6 +106,14 @@ const Code = styled.h1`
   color: #12121c;
   transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 `
+const Plus = styled.img`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+`
 const Test = styled(motion.div)`
   width: 320px;
   margin: 10px;
@@ -131,6 +145,9 @@ const Test = styled(motion.div)`
       transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
   }
+  ${(props) =>
+    !props.plus &&
+    `border: 2px solid #FD7602; box-shadow: 0px 0px 15px rgba(236, 98, 54, 0.3); :hover{box-shadow: 0px 0px 15px rgba(236, 98, 54, 0.7);}`}
 `
 
 export default TestSummary
