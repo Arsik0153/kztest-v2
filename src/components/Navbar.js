@@ -8,6 +8,7 @@ import exit from './../assets/exit.svg'
 import Logo from './templates/Logo'
 import menu from './../assets/menu.svg'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 
 const container = {
   visible: {
@@ -41,21 +42,21 @@ const Navbar = () => {
       </Logo>
       <Menu src={menu} onClick={() => setMenuOpen(!menuOpen)} />
       <Links variants={container} initial="hidden" animate="visible">
-        <Link variants={item}>
+        <LinkNav variants={item} to="/cabinet">
           <img src={profile} /> <span>Профиль</span>
-        </Link>
-        <Link variants={item}>
+        </LinkNav>
+        <LinkNav variants={item} to="/new">
           <img src={create} /> <span>Новый тест</span>
-        </Link>
-        <Link variants={item}>
+        </LinkNav>
+        <LinkNav variants={item}>
           <img src={payment} /> <span>Оплата</span>
-        </Link>
-        <Link variants={item}>
+        </LinkNav>
+        <LinkNav variants={item}>
           <img src={help} /> <span>Помощь</span>
-        </Link>
-        <Link variants={item}>
+        </LinkNav>
+        <LinkNav variants={item}>
           <img src={exit} /> <span>Выход</span>
-        </Link>
+        </LinkNav>
       </Links>
     </Container>
   )
@@ -94,7 +95,7 @@ const Links = styled(motion.div)`
     margin-top: 0;
   }
 `
-const Link = styled(motion.a)`
+const LinkNav = styled(motion.custom(Link))`
   color: #8b93b3;
   font-weight: bold;
   font-size: 14px;
