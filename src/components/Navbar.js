@@ -43,19 +43,19 @@ const Navbar = () => {
       <Menu src={menu} onClick={() => setMenuOpen(!menuOpen)} />
       <Links variants={container} initial="hidden" animate="visible">
         <LinkNav variants={item} to="/cabinet">
-          <img src={profile} /> <span>Профиль</span>
+          <img src={profile} alt="profile" /> <span>Профиль</span>
         </LinkNav>
         <LinkNav variants={item} to="/new">
-          <img src={create} /> <span>Новый тест</span>
+          <img src={create} alt="create" /> <span>Новый тест</span>
         </LinkNav>
-        <LinkNav variants={item}>
-          <img src={payment} /> <span>Оплата</span>
+        <LinkNav variants={item} to="/">
+          <img src={payment} alt="payment" /> <span>Оплата</span>
         </LinkNav>
-        <LinkNav variants={item}>
-          <img src={help} /> <span>Помощь</span>
+        <LinkNav variants={item} to="/">
+          <img src={help} alt="help" /> <span>Помощь</span>
         </LinkNav>
-        <LinkNav variants={item}>
-          <img src={exit} /> <span>Выход</span>
+        <LinkNav variants={item} to="/">
+          <img src={exit} alt="exit" /> <span>Выход</span>
         </LinkNav>
       </Links>
     </Container>

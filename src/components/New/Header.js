@@ -1,18 +1,36 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Header = () => {
+const Header = ({ test, setTest }) => {
+  const changeTestName = (e) => {
+    setTest({ ...test, name: e.target.value })
+  }
+
+  const changeTestDuration = (e) => {
+    setTest({ ...test, duration: e.target.value })
+  }
+
   return (
     <Flex>
       <div className="form">
         <Label>Название теста:</Label>
-        <Input type="text" placeholder="Название теста" />
+        <Input
+          type="text"
+          placeholder="Название теста"
+          value={test.name}
+          onChange={(e) => changeTestName(e)}
+        />
         <Label>Время на выполнение:</Label>
-        <Input type="text" placeholder="Количество минут" />
+        <Input
+          type="text"
+          placeholder="Количество минут"
+          value={test.duration}
+          onChange={(e) => changeTestDuration(e)}
+        />
       </div>
       <div className="info">
-        <p>Количество вопросов: 4</p>
-        <p>Рекомендованное время: 15 мин</p>
+        <p>Количество вопросов: {test.questionsList.length}</p>
+        <p>Рекомендованное время: {test.questionsList.length * 2} мин</p>
       </div>
     </Flex>
   )
@@ -59,7 +77,6 @@ const Flex = styled.div`
   }
 `
 const Label = styled.label`
-  min-width: 300px;
   font-weight: 600;
   font-size: 14px;
   color: #717281;

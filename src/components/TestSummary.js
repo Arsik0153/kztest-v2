@@ -39,7 +39,7 @@ const TestSummary = () => {
             <CodeTitle>Код:</CodeTitle>
             <Code>4502</Code>
             <Next>
-              <img src={arrow} />
+              <img src={arrow} alt="arrow" />
             </Next>
           </Test>
         </Link>

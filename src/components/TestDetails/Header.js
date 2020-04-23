@@ -14,7 +14,7 @@ const Header = () => {
       </Code>
       <Time>
         03.04.2020
-        <img src={calendar} />
+        <img src={calendar} alt="calendar" />
       </Time>
     </Container>
   )
